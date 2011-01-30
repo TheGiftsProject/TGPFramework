@@ -1,6 +1,6 @@
-namespace('Utils');
+namespace('TGP', 'Data');
 
-Utils.CountryCodes = {
+TGP.Data.CountryCodes = {
     AD: 'Andorra',
     AE: 'United Arab Emirates',
     AF: 'Afghanistan',
