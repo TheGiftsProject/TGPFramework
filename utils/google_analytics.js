@@ -1,4 +1,4 @@
-namespace('Utils').makeObject('GoogleAnalytics');
+TGP.Namespace('Utils').MakeObject('GoogleAnalytics');
 
 (function() {
 
@@ -26,4 +26,4 @@ namespace('Utils').makeObject('GoogleAnalytics');
         this.TrackEvent('FORM', form, field);
     };
 
-}).call(Utils.GoogleAnalytics);
+}).call(TGP.Utils.GoogleAnalytics);

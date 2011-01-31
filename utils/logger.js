@@ -1,4 +1,4 @@
-namespace("Utils").makeObject("Log");
+TGP.Namespace("Utils").MakeObject("Log");
 
 (function() {
     function StopLogging() {
@@ -31,4 +31,4 @@ namespace("Utils").makeObject("Log");
         this.StartLogging();
     }
 
-}).call(Utils.Log);
+}).call(TGP.Utils.Log);

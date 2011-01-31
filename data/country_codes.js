@@ -1,4 +1,4 @@
-namespace('TGP', 'Data');
+TGP.Namespace('Data');
 
 TGP.Data.CountryCodes = {
     AD: 'Andorra',

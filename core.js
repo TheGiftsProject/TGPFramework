@@ -1,4 +1,4 @@
-namespace('Utils').makeObject('Core');
+TGP.MakeObject('Core');
 
 (function() {
 
@@ -57,11 +57,18 @@ namespace('Utils').makeObject('Core');
     }
 
     function Inherit(child, parent) {
-        for (var property in parent.prototype) {
-            if (typeof child.prototype[property] == "undefined") {
-                child.prototype[property] = parent.prototype[property];
+        for (var key in parent) {
+            if (Object.prototype.hasOwnProperty.call(parent, key)) {
+                child[key] = parent[key];
             }
         }
+
+        function ctor() {
+            this.constructor = child;
+        }
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor();
+        child.__super__ = parent.prototype;
         return child;
     }
 
@@ -90,4 +97,4 @@ namespace('Utils').makeObject('Core');
     this.InheritObject = InheritObject;
     this.MakeAccessor  = MakeAccessor;
 
-}).call(Utils.Core);
+}).call(TGP.Core);

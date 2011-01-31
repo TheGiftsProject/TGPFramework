@@ -1,12 +1,12 @@
-namespace('Utils');
+TGP.Namespace('Utils');
 
-Utils.Observer = function(owner, delayed) {
+TGP.Utils.Observer = function(owner, delayed) {
     this.owner = owner;
     this.delayed = delayed;
     this.handlers = [];
 };
 
-Utils.Observer.prototype.AddListener = function(listener) {
+TGP.Utils.Observer.prototype.AddListener = function(listener) {
     for (var i = 0; i < this.handlers.length; ++i)
     {
         if (this.handlers[i] === listener) { return this; }
@@ -16,7 +16,7 @@ Utils.Observer.prototype.AddListener = function(listener) {
     return this;
 };
 
-Utils.Observer.prototype.RemoveListener = function(listener) {
+TGP.Utils.Observer.prototype.RemoveListener = function(listener) {
     for (var i = 0; i < this.handlers.length; ++i)
     {
         if (this.handlers[i] === listener)
@@ -29,7 +29,7 @@ Utils.Observer.prototype.RemoveListener = function(listener) {
     return this;
 };
 
-Utils.Observer.prototype.Trigger = function() {
+TGP.Utils.Observer.prototype.Trigger = function() {
     if (this.delayed) {
         this._TriggerDelayed.apply(this, arguments);
     } else {
@@ -42,7 +42,7 @@ Utils.Observer.prototype.Trigger = function() {
 };
 
 // This mess allows us to run the UI thread between each handler. This works well if you have many handlers that do small tasks. If you have several large handlers, they should be broken up with setTimeout themselves.
-Utils.Observer.prototype._TriggerDelayed = function() {
+TGP.Utils.Observer.prototype._TriggerDelayed = function() {
     var i = 0;
     var handlers = this.handlers;
     var owner = this.owner;
