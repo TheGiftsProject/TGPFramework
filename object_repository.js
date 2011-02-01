@@ -1,28 +1,76 @@
+/* repoData format:
+*
+* { ##name##: {
+*     file: ##filename##,
+*     dependencies: [ ##dependency_name1##, ##dependency_name2##, ... ]
+*   },
+*   ...
+* }
+*/
+
 ObjectRepository = {};
 
+/**
+ * @returns the global object.
+ */
 function GetGlobalNamespace() {
     return this;
 }
 
 (function() {
 
-    var repoData;
+    var repoData = {};
+    var globalNamespace = GetGlobalNamespace();
 
-    function RepositoryError(message, name) {
-        return {
+    /**
+     * Set the basepath for all javascript Loading
+     */
+    $LAB.setGlobalDefaults({BasePath: '/javascripts'});
+
+    /**
+     * @returns A standard object for all repository errors
+     */
+    function RepositoryError(message, data) {
+        var errorObject = {
             name: 'RepositoryError',
             message: message,
-            objectName: name
+            data: data
         };
+
+        if (console && console.dir) {
+            console.dir(errorObject);
+        }
+
+        return errorObject;
     }
 
+    /**
+     * Appends more object data to the repository
+     * @param {object} data The new data to add to the repository
+     */
+    function AddRepositoryData(data) {
+        for (var i in data) {
+            if (repoData[i] === undefined) {
+                repoData[i] = data[i];
+            } else {
+                throw RepositoryError('Repository Data Conflict', data);
+            }
+        }
+    }
+
+    /**
+     * @returns An object specifier from the repository object data collection
+     */
     function GetObjectSpecifier(name) {
         return repoData[name];
     }
 
+    /**
+     * Checks if an object already exists based on a string representation of that object
+     */
     function ObjectExists(name) {
         var objectTrail = name.split('.');
-        var lastObject = GetGlobalNamespace();
+        var lastObject = globalNamespace;
 
         for (var i = 0, length = objectTrail.length; i < length; ++i) {
             lastObject = lastObject[objectTrail[i]];
@@ -35,38 +83,107 @@ function GetGlobalNamespace() {
         return true;
     }
 
-    function LoadJavascript(filename) {
+    /**
+     * Loads javascript files via labjs
+     * @param {array} files A flat array of filenames - duplicates will be removed automatically
+     * @param {function} callback This function will be called after execution of all the js files
+     */
+    function LoadJavascript(files, callback) {
+        // Remove duplicates
+        for (var i = 0; i < files.length; ++i) {
+            for (var j = i+1; j < files.length; ++j) {
+                if (files[j] == files[i]) {
+                    files.splice(j, 1);
+                    j--;
+                }
+            }
+        }
+
+        $LAB.setOptions({AlwaysPreserveOrder: true, AllowDuplicates: false}).script(files).wait(callback);
     }
 
-    function Require(name) {
+    /**
+     * @returns An array of filenames that are required by objectName
+     */
+    function FetchDependencies(objectName, dependenciesOnly) {
+        var dependencyList = [];
+
+        var objectSpecifier = GetObjectSpecifier(objectName);
+
+        if (!objectSpecifier) {
+            throw RepositoryError('Object Not Found', objectName);
+        }
+
+        if (!ObjectExists(objectName) && dependenciesOnly !== true) {
+            dependencyList.unshift(objectSpecifier.file);
+        }
+
+        for (var i = 0, length = objectSpecifier.dependencies.length; i < length; ++i) {
+            dependencyList = FetchDependencies(objectSpecifier.dependencies[i]).concat(dependencyList);
+        }
+
+        return dependencyList;
+    }
+
+    /**
+     * Loads objects including dependencies
+     * @param {array} names An array of object names to load
+     * @param {function} callback This function will be called when the objects and their dependencies are ready
+     * @param {boolean} dependenciesOnly Do not load the actual object - should be used in the file where each object is created
+     */
+    function Require(names, callback, dependenciesOnly) {
         if (!repoData) {
             throw RepositoryError('Repository Not Ready', name);
         }
 
-        if (typeof name != 'string') {
-            throw RepositoryError('Invalid Object Name', name);
+        var dependencyList = [];
+
+        if (typeof names == 'string') {
+            names = [names];
         }
 
-        var objectSpecifier = GetObjectSpecifier(name);
-
-        if (objectSpecifier) {
-            for (var i = 0, length = objectSpecifier.dependencies.length; i < length; ++i) {
-                Require(objectSpecifier.dependencies[i]);
-            }
-
-            if (!ObjectExists(name)) {
-                LoadJavascript(objectSpecifier.file);
-            }
-        } else {
-            throw RepositoryError('Object Not Found', name);
+        for (var i = 0, length = names.length; i < length; ++i) {
+            dependencyList = dependencyList.concat(FetchDependencies(names[i], dependenciesOnly));
         }
+
+        LoadJavascript(dependencyList, callback);
     }
 
-    function SetRepositoryData(data) {
-        repoData = data;
+    /**
+     * Validates the integrity of the repo object collection by attempting to delete and load all object specified (including their dependencies)
+     * ObjectRepository should throw an exception if there's an object name issue. If there's a filename error, you should see a 404 error in the network tab in either firebug or chrome.
+     */
+    function TestObjectData() {
+        function DeleteObjectByName(name) {
+            var objectTrail = name.split('.');
+            var lastObject = globalNamespace;
+
+            for (var i = 0, length = objectTrail.length-1; i < length; ++i) {
+                lastObject = lastObject[objectTrail[i]];
+
+                if (lastObject === undefined) {
+                    return false;
+                }
+            }
+
+            delete lastObject[objectTrail[i]];
+        }
+
+        for (var key in repoData) {
+            if (repoData.hasOwnProperty(key)) {
+                DeleteObjectByName(key);
+                for (var i = 0, length = repoData[key].dependencies.length; i < length; ++i) {
+                    DeleteObjectByName(repoData[key].dependencies[i]);
+                }
+
+                Require(key);
+            }
+        }
     }
 
     this.Require = Require;
-    this.SetRepositoryData = SetRepositoryData;
+    this.AddRepositoryData = AddRepositoryData;
+    this.GlobalNamespace = globalNamespace;
+    this.TestObjectData = TestObjectData;
 
 }).call(ObjectRepository);

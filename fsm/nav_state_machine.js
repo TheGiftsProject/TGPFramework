@@ -1,8 +1,4 @@
-steal('../tgp.js',
-      '../utils/logger.js',
-      'state.js',
-      'state_machine.js')
-.then(function() {
+ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
 
     TGP.Namespace('FSM');
 
@@ -67,4 +63,4 @@ steal('../tgp.js',
         return this.stateName + (this.currentState ? ", " + this.currentState.getCurrentStateString() : ".");
     };
 
-});
+}, true);

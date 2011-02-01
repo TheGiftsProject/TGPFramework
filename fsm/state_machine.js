@@ -1,7 +1,4 @@
-steal('../tgp.js',
-      '../utils/logger.js',
-      'state.js')
-.then(function() {
+ObjectRepository.Require('TGP.FSM.StateMachine', function() {
 
     TGP.Namespace('FSM');
 
@@ -24,4 +21,4 @@ steal('../tgp.js',
         TGP.FSM.StateMachine.__super__.unloadState.call(this);
     };
 
-});
+}, true);

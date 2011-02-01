@@ -1,35 +1,39 @@
-var TGP = TGP || {};
+ObjectRepository.Require('TGP', function() {
 
-(function() {
+    TGP = (typeof TGP !== 'undefined' ? TGP : {});
 
-  function MakeObject(name) {
-      if (!this[name]) {
-          this[name] = {};
-      }
-  }
+    (function() {
 
-  function Namespace() {
-      var lastNamespace = this;
-
-      var firstArg = 0;
-
-      if (arguments[0] === true) {
-          lastNamespace = TGP.globalNamespace;
-          firstArg = 1;
+      function MakeObject(name) {
+          if (!this[name]) {
+              this[name] = {};
+          }
       }
 
-      for (var i = firstArg, length = arguments.length; i < length; ++i) {
-          if (!lastNamespace[arguments[i]]) {
-              lastNamespace[arguments[i]] = { Namespace: Namespace, MakeObject: MakeObject };
+      function Namespace() {
+          var lastNamespace = this;
+
+          var firstArg = 0;
+
+          if (arguments[0] === true) {
+              lastNamespace = ObjectRepository.GlobalNamespace;
+              firstArg = 1;
           }
 
-          lastNamespace = lastNamespace[arguments[i]];
+          for (var i = firstArg, length = arguments.length; i < length; ++i) {
+              if (!lastNamespace[arguments[i]]) {
+                  lastNamespace[arguments[i]] = { Namespace: Namespace, MakeObject: MakeObject };
+              }
+
+              lastNamespace = lastNamespace[arguments[i]];
+          }
+
+          return lastNamespace;
       }
 
-      return lastNamespace;
-  }
+      this.MakeObject = MakeObject;
+      this.Namespace  = Namespace;
 
-  this.MakeObject = MakeObject;
-  this.Namespace  = Namespace;
+    }).call(TGP);
 
-}).call(TGP);
+}, true);

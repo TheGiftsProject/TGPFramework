@@ -1,10 +1,13 @@
-steal('tgp.js')
-.then(function() {
+ObjectRepository.Require('TGP.Core', function() {
 
     TGP.MakeObject('Core');
 
     (function() {
 
+        /**
+         * Unlike typeof, this can distinguish between 'object', 'array' and 'null'
+         * @returns A string representing the type of the object
+         */
         function GetType(obj) {
             var s = typeof obj;
             if (s === 'object') {
@@ -102,4 +105,4 @@ steal('tgp.js')
 
     }).call(TGP.Core);
 
-});
+}, true);

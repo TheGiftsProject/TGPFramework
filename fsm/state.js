@@ -1,6 +1,4 @@
-steal('../tgp.js',
-      '../utils/logger.js')
-.then(function() {
+ObjectRepository.Require('TGP.FSM.State', function() {
 
     TGP.Namespace('FSM');
 
@@ -23,4 +21,4 @@ steal('../tgp.js',
         this.active = false;
     };
 
-});
+}, true);

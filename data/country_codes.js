@@ -1,4 +1,4 @@
-steal('../tgp.js').then(function() {
+ObjectRepository.Require('TGP.Data.CountryCodes', function() {
 
     TGP.Namespace('Data');
 
@@ -253,4 +253,4 @@ steal('../tgp.js').then(function() {
         ZW: 'Zimbabwe'
     };
 
-});
+}, true);

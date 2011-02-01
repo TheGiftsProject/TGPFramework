@@ -1,29 +1,33 @@
-TGP.Namespace('Utils').MakeObject('GoogleAnalytics');
+ObjectRepository.Require('TGP.Utils.GoogleAnalytics', function() {
 
-(function() {
+    TGP.Namespace('Utils').MakeObject('GoogleAnalytics');
 
-    function RecordEvent(payload) {
-        _gaq.push(payload);
-    }
+    (function() {
 
-    function SetCustomVar(index, name, value, scope) {
-        RecordEvent(['_setCustomVar', index, name, value, scope]);
-    }
+        function RecordEvent(payload) {
+            _gaq.push(payload);
+        }
 
-    this.TrackPageView = function(pageName) {
-        RecordEvent(['_trackPageview', pageName]);
-    };
+        function SetCustomVar(index, name, value, scope) {
+            RecordEvent(['_setCustomVar', index, name, value, scope]);
+        }
 
-    this.TrackEvent = function(category, action, level) {
-        var payload = ['_trackEvent', category, action, level];
+        this.TrackPageView = function(pageName) {
+            RecordEvent(['_trackPageview', pageName]);
+        };
 
-        if (typeof level == 'undefined') { payload.length = 3; }
+        this.TrackEvent = function(category, action, level) {
+            var payload = ['_trackEvent', category, action, level];
 
-        RecordEvent(payload);
-    };
+            if (typeof level == 'undefined') { payload.length = 3; }
 
-    this.TrackFormEvent = function(form, field) {
-        this.TrackEvent('FORM', form, field);
-    };
+            RecordEvent(payload);
+        };
 
-}).call(TGP.Utils.GoogleAnalytics);
+        this.TrackFormEvent = function(form, field) {
+            this.TrackEvent('FORM', form, field);
+        };
+
+    }).call(TGP.Utils.GoogleAnalytics);
+
+}, true);
