@@ -14,7 +14,7 @@ ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
         if (!this.initialized && this.init) {
             this.init();
             this.initialized = true;
-            TGP.Utils.Log.Info('Initialized: ' + this.stateName);
+            TGP.Utils.Logger.Info('Initialized: ' + this.stateName);
         }
 
         TGP.FSM.StateMachine.prototype.loadState.call(this);

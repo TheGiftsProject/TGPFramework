@@ -87,8 +87,12 @@ function GetGlobalNamespace() {
      * Loads javascript files via labjs
      * @param {array} files A flat array of filenames - duplicates will be removed automatically
      * @param {function} callback This function will be called after execution of all the js files
+     * @param {boolean} reloadFiles If true, files will be reloaded and re-executed
+     * @returns {array} Filenames that were sent to labjs
      */
-    function LoadJavascript(files, callback) {
+    function LoadJavascript(files, callback, reloadFiles) {
+        var allowDuplicates = (reloadFiles ? reloadFiles : false);
+
         // Remove duplicates
         for (var i = 0; i < files.length; ++i) {
             for (var j = i+1; j < files.length; ++j) {
@@ -99,7 +103,9 @@ function GetGlobalNamespace() {
             }
         }
 
-        $LAB.setOptions({AlwaysPreserveOrder: true, AllowDuplicates: false}).script(files).wait(callback);
+        $LAB.setOptions({AlwaysPreserveOrder: true, AllowDuplicates: allowDuplicates}).script(files).wait(callback);
+
+        return files;
     }
 
     /**
@@ -130,8 +136,9 @@ function GetGlobalNamespace() {
      * @param {array} names An array of object names to load
      * @param {function} callback This function will be called when the objects and their dependencies are ready
      * @param {boolean} dependenciesOnly Do not load the actual object - should be used in the file where each object is created
+     * @param {boolean} reloadFiles If true, files will be reloaded and re-executed
      */
-    function Require(names, callback, dependenciesOnly) {
+    function Require(names, callback, dependenciesOnly, reloadFiles) {
         if (!repoData) {
             throw RepositoryError('Repository Not Ready', name);
         }
@@ -146,7 +153,13 @@ function GetGlobalNamespace() {
             dependencyList = dependencyList.concat(FetchDependencies(names[i], dependenciesOnly));
         }
 
-        LoadJavascript(dependencyList, callback);
+        var loadedFiles = LoadJavascript(dependencyList, callback, reloadFiles);
+
+        if (typeof __debugging__ !== 'undefined' && console && console.groupCollapsed && console.groupEnd) { 
+            console.groupCollapsed(loadedFiles.length + " FILES LOADED - " + names.join());
+            console.dir(loadedFiles);
+            console.groupEnd();
+        }
     }
 
     /**
@@ -176,7 +189,7 @@ function GetGlobalNamespace() {
                     DeleteObjectByName(repoData[key].dependencies[i]);
                 }
 
-                Require(key);
+                Require(key, undefined, undefined, true);
             }
         }
     }

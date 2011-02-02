@@ -1,10 +1,10 @@
 ObjectRepository.Require('TGP.Utils.Logger', function() {
 
-    TGP.Namespace("Utils").MakeObject("Log");
+    TGP.Namespace("Utils").MakeObject("Logger");
 
     (function() {
         function StopLogging() {
-            this.Log = this.Info = this.Warn = this.Error = function() {};
+            this.Log = this.Info = this.Warn = this.Error = this.Dir = function() {};
         }
 
         function StartLogging() {
@@ -23,16 +23,20 @@ ObjectRepository.Require('TGP.Utils.Logger', function() {
             this.Error = function(msg) {
                 console.error(msg);
             };
+
+            this.Dir = function(obj) {
+                console.dir(obj);
+            };
         }
 
         this.StopLogging = StopLogging;
 
         this.StartLogging = StartLogging;
 
-        if (typeof console != 'undefined' && typeof __preventLogging == 'undefined') {
+        if (typeof console != 'undefined' && typeof __debugging__ !== 'undefined') {
             this.StartLogging();
         }
 
-    }).call(TGP.Utils.Log);
+    }).call(TGP.Utils.Logger);
 
 }, true);
