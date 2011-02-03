@@ -155,7 +155,7 @@ function GetGlobalNamespace() {
 
         var loadedFiles = LoadJavascript(dependencyList, callback, reloadFiles);
 
-        if (typeof __debugging__ !== 'undefined' && console && console.groupCollapsed && console.groupEnd) { 
+        if (typeof __debugging__ !== 'undefined' && console && console.groupCollapsed && console.groupEnd) {
             console.groupCollapsed(loadedFiles.length + " FILES LOADED - " + names.join());
             console.dir(loadedFiles);
             console.groupEnd();
