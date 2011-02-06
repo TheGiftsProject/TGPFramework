@@ -7,7 +7,7 @@
 *   ...
 * }
 */
-
+"strict mode";
 ObjectRepository = {};
 
 /**
