@@ -2,26 +2,25 @@ ObjectRepository.Require('TGP.Utils.Observer', function() {
 
     TGP.Namespace('Utils');
 
-    TGP.Utils.Observer = function(owner, delayed) {
-        this.owner = owner;
+    TGP.Utils.Observer = function(delayed) {
         this.delayed = delayed;
         this.handlers = [];
     };
 
-    TGP.Utils.Observer.prototype.AddListener = function(listener) {
+    TGP.Utils.Observer.prototype.AddListener = function(listener, caller) {
         for (var i = 0; i < this.handlers.length; ++i)
         {
-            if (this.handlers[i] === listener) { return this; }
+            if (this.handlers[i].listener === listener) { return this; }
         }
 
-        this.handlers.push(listener);
+        this.handlers.push({listener: listener, caller: caller});
         return this;
     };
 
     TGP.Utils.Observer.prototype.RemoveListener = function(listener) {
         for (var i = 0; i < this.handlers.length; ++i)
         {
-            if (this.handlers[i] === listener)
+            if (this.handlers[i].listener === listener)
             {
                 delete this.handlers[i];
                 return this;
@@ -37,7 +36,7 @@ ObjectRepository.Require('TGP.Utils.Observer', function() {
         } else {
             for (var i = 0; i < this.handlers.length; ++i) {
                 if (this.handlers[i]) {
-                    this.handlers[i].apply(this.owner, arguments);
+                    this.handlers[i].listener.apply(this.handlers[i].caller, arguments);
                 }
             }
         }
@@ -47,13 +46,12 @@ ObjectRepository.Require('TGP.Utils.Observer', function() {
     TGP.Utils.Observer.prototype._TriggerDelayed = function() {
         var i = 0;
         var handlers = this.handlers;
-        var owner = this.owner;
         var args = arguments;
         var worker;
         worker = function() {
             setTimeout(function() {
                 if (handlers[i]) {
-                    handlers[i].apply(owner, args);
+                    handlers[i].listener.apply(handlers[i].caller, args);
                 }
                 i += 1;
 

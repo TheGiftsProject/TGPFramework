@@ -3,22 +3,10 @@ ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
     TGP.Namespace('FSM');
 
     TGP.FSM.NavStateMachine = function(stateName) {
-        this.initialized = false;
-        this.init = null;
-        TGP.FSM.StateMachine.call(this, stateName);
+        TGP.FSM.NavStateMachine.__super__.constructor.call(this, stateName);
     };
 
     TGP.Core.Inherit(TGP.FSM.NavStateMachine, TGP.FSM.StateMachine);
-
-    TGP.FSM.NavStateMachine.prototype.loadState = function() {
-        if (!this.initialized && this.init) {
-            this.init();
-            this.initialized = true;
-            TGP.Utils.Logger.Info('Initialized: ' + this.stateName);
-        }
-
-        TGP.FSM.StateMachine.prototype.loadState.call(this);
-    };
 
     TGP.FSM.NavStateMachine.prototype.findStateByName = function(stateName) {
         for (var i = 0; i < this.stateMachines.length; i++) {
@@ -35,11 +23,16 @@ ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
     };
 
     TGP.FSM.NavStateMachine.prototype.processEvent = function(eventString) {
-        if (!this.active) { this.loadState(); }
+        var thisState = this;
+
+        if (this.status < TGP.FSM.State.STATUS.LOADING) { this.loadState(); }
 
         if (!eventString) {
-            if (this.currentState) { this.currentState.unloadState(); }
-            this.currentState = null;
+            if (this.currentState) {
+                this.currentState.unloadState(function() {
+                    thisState.currentState = null;
+                });
+            }
             return;
         }
 
@@ -50,12 +43,22 @@ ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
         var newState = this.findStateByName(stateName);
         if (newState !== null) {
             if (newState != this.currentState) {
-                if (this.currentState) { this.currentState.unloadState(); }
-                this.currentState = newState;
-                this.currentState.loadState();
+                if (this.currentState) {
+                    this.currentState.unloadState(function() {
+                        thisState.currentState = newState;
+                        thisState.currentState.loadState(function() {
+                            thisState.currentState.processEvent(eventString);
+                        });
+                    });
+                } else {
+                    thisState.currentState = newState;
+                    thisState.currentState.loadState(function() {
+                        thisState.currentState.processEvent(eventString);
+                    });
+                }
+            } else {
+                this.currentState.processEvent(eventString);
             }
-
-            this.currentState.processEvent(eventString);
         }
     };
 
