@@ -2,11 +2,11 @@ ObjectRepository.Require('TGP.FSM.State', function() {
 
     TGP.Namespace('FSM');
 
-    TGP.FSM.State = function(stateName) {
+    TGP.FSM.State = function(stateName, init, load, unload) {
         this.stateName   = stateName;
-        this.init        = null;
-        this.load        = null;
-        this.unload      = null;
+        this.init        = init;
+        this.load        = load;
+        this.unload      = unload;
         this.status      = TGP.FSM.State.STATUS.PRE_INIT;
         this.OnCancel    = new TGP.Utils.Observer();
         this.OnCancel.AddListener(this.ResetStatus, this);

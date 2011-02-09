@@ -2,8 +2,8 @@ ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
 
     TGP.Namespace('FSM');
 
-    TGP.FSM.NavStateMachine = function(stateName) {
-        TGP.FSM.NavStateMachine.__super__.constructor.call(this, stateName);
+    TGP.FSM.NavStateMachine = function(stateName, init, load, unload) {
+        TGP.FSM.NavStateMachine.__super__.constructor.call(this, stateName, init, load, unload);
     };
 
     TGP.Core.Inherit(TGP.FSM.NavStateMachine, TGP.FSM.StateMachine);

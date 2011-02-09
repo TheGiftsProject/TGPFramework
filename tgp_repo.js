@@ -1,9 +1,4 @@
 ObjectRepository.AddRepositoryData({
-    'jQuery': {
-        file: 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js',
-        dependencies: []
-    },
-
     'TGP': {
         file: '/tgp/tgp.js',
         dependencies: []
@@ -11,7 +6,7 @@ ObjectRepository.AddRepositoryData({
 
     'TGP.Core': {
         file: '/tgp/core.js',
-        dependencies: ['jQuery', 'TGP']
+        dependencies: ['TGP']
     },
 
     'TGP.Utils.GoogleAnalytics': {
@@ -26,7 +21,7 @@ ObjectRepository.AddRepositoryData({
 
     'TGP.Utils.Observer': {
         file: '/tgp/utils/observer.js',
-        dependencies: ['TGP']
+        dependencies: ['TGP', 'TGP.Core']
     },
 
     'TGP.Utils.ResettableCollection': {

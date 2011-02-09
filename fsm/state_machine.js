@@ -2,8 +2,8 @@ ObjectRepository.Require('TGP.FSM.StateMachine', function() {
 
     TGP.Namespace('FSM');
 
-    TGP.FSM.StateMachine = function(stateName) {
-        TGP.FSM.StateMachine.__super__.constructor.call(this, stateName);
+    TGP.FSM.StateMachine = function(stateName, init, load, unload) {
+        TGP.FSM.StateMachine.__super__.constructor.call(this, stateName, init, load, unload);
         this.stateMachines = [];
         this.currentState = null;
     };

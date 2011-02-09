@@ -42,6 +42,10 @@ ObjectRepository.Require('TGP.Utils.Observer', function() {
         }
     };
 
+    TGP.Utils.Observer.prototype.GetBoundTrigger = function() {
+        return TGP.Core.BindThis(this, Trigger);
+    };
+
     // This mess allows us to run the UI thread between each handler. This works well if you have many handlers that do small tasks. If you have several large handlers, they should be broken up with setTimeout themselves.
     TGP.Utils.Observer.prototype._TriggerDelayed = function() {
         var i = 0;
