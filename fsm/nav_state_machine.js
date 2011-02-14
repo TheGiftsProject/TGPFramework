@@ -25,7 +25,7 @@ ObjectRepository.Require('TGP.FSM.NavStateMachine', function() {
     TGP.FSM.NavStateMachine.prototype.processEvent = function(eventString) {
         var thisState = this;
 
-        if (this.status < TGP.FSM.State.STATUS.LOADING) { this.loadState(); }
+        if (this.status < TGP.FSM.Component.STATUS.LOADING) { this.loadState(); }
 
         if (!eventString) {
             if (this.currentState) {

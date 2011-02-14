@@ -1,4 +1,9 @@
 ObjectRepository.AddRepositoryData({
+    'flow': {
+        file: '/tgp/lib/flow.js',
+        dependencies: []
+    },
+
     'TGP': {
         file: '/tgp/tgp.js',
         dependencies: []
@@ -29,14 +34,14 @@ ObjectRepository.AddRepositoryData({
         dependencies: ['TGP', 'TGP.Core']
     },
 
-    'TGP.FSM.State': {
-        file: '/tgp/fsm/state.js',
-        dependencies: ['TGP', 'TGP.Utils.Logger']
+    'TGP.FSM.Component': {
+        file: '/tgp/fsm/component.js',
+        dependencies: ['TGP', 'flow']
     },
 
     'TGP.FSM.StateMachine': {
         file: '/tgp/fsm/state_machine.js',
-        dependencies: ['TGP', 'TGP.Core', 'TGP.FSM.State']
+        dependencies: ['TGP', 'TGP.Core', 'TGP.FSM.Component', 'flow']
     },
 
     'TGP.FSM.NavStateMachine': {
