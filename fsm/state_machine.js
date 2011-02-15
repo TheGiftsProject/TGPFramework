@@ -15,6 +15,8 @@ ObjectRepository.Require('TGP.FSM.StateMachine', function() {
         }
 
         this.stateMachines = this.stateMachines.concat(stateMachines);
+
+        return this;
     };
 
     TGP.FSM.StateMachine.prototype.FindChildStateMachine = function(name) {

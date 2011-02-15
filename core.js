@@ -151,11 +151,16 @@ ObjectRepository.Require('TGP.Core', function() {
             return child;
         }
 
-        function MakeAccessor(param, container) {
+        function MakeAccessor(param, container, changeCallback) {
             return function(p) {
                 if (p === undefined) { return container[param]; }
 
+                var lastValue = container[param];
                 container[param] = p;
+
+                if (changeCallback) {
+                    changeCallback(param, lastValue, p);
+                }
                 return this;
             };
         }

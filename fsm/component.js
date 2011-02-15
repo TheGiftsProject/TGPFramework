@@ -4,8 +4,6 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
 
     TGP.FSM.Component = function() {
         this.status = TGP.FSM.Component.STATUS.PRE_INIT;
-
-        this.init = this.load = this.unload = null;
     };
 
     TGP.FSM.Component.STATUS = {
@@ -44,8 +42,8 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                 function() {
                     thisState.ChangeStatus(TGP.FSM.Component.STATUS.INITIALIZING);
 
-                    if (thisState.init) {
-                        thisState.init(this);
+                    if (thisState.Init) {
+                        thisState.Init(this);
                     } else {
                         this();
                     }
@@ -76,8 +74,8 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                     if (!error) {
                         thisState.ChangeStatus(TGP.FSM.Component.STATUS.LOADING);
 
-                        if (thisState.load) {
-                            thisState.load(this);
+                        if (thisState.Load) {
+                            thisState.Load(this);
                         } else {
                             this();
                         }
@@ -107,8 +105,8 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                 function() {
                     thisState.ChangeStatus(TGP.FSM.Component.STATUS.UNLOADING);
 
-                    if (thisState.unload) {
-                        thisState.unload(this);
+                    if (thisState.Unload) {
+                        thisState.Unload(this);
                     } else {
                         this();
                     }
