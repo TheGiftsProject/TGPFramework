@@ -44,10 +44,10 @@ ObjectRepository.AddRepositoryData({
         dependencies: ['TGP', 'TGP.Core', 'TGP.FSM.Component', 'flow']
     },
 
-    'TGP.FSM.NavStateMachine': {
-        file: '/tgp/fsm/nav_state_machine.js',
-        dependencies: ['TGP', 'TGP.Core', 'TGP.Utils.Logger', 'TGP.FSM.StateMachine']
-    },
+    //'TGP.FSM.NavStateMachine': {
+        //file: '/tgp/fsm/nav_state_machine.js',
+        //dependencies: ['TGP', 'TGP.Core', 'TGP.Utils.Logger', 'TGP.FSM.StateMachine']
+    //},
 
     'TGP.Data.CountryCodes': {
         file: '/tgp/data/country_codes.js',

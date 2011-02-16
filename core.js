@@ -116,7 +116,7 @@ ObjectRepository.Require('TGP.Core', function() {
                     if (typeof current == 'object' && obj !== null) {
                         current = current[arguments[i]];
                     } else {
-                        break;
+                        return undefined;
                     }
                 }
 
