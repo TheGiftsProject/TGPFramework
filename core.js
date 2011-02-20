@@ -91,7 +91,7 @@ ObjectRepository.Require('TGP.Core', function() {
             var newArray = destArray || [];
             newArray.length = 0;
             for (var i = 0, length = sourceArray.length; i < length; ++i) {
-                newArray.push(Utils.DeepCopyObject(sourceArray[i]));
+                newArray.push(DeepCopy(sourceArray[i]));
             }
             return newArray;
         }
@@ -158,7 +158,7 @@ ObjectRepository.Require('TGP.Core', function() {
                 var lastValue = container[param];
                 container[param] = p;
 
-                if (changeCallback) {
+                if (changeCallback && (lastValue !== p)) {
                     changeCallback(param, lastValue, p);
                 }
                 return this;
