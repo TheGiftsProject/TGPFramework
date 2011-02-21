@@ -48,9 +48,10 @@ function GetGlobalNamespace() {
      * Appends more object data to the repository
      * @param {object} data The new data to add to the repository
      */
-    function AddRepositoryData(data) {
+    function AddRepositoryData(basePath, data) {
         for (var i in data) {
             if (repoData[i] === undefined) {
+                data[i].file = basePath + data[i].file;
                 repoData[i] = data[i];
             } else {
                 throw RepositoryError('Repository Data Conflict', data);

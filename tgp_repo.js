@@ -1,51 +1,51 @@
-ObjectRepository.AddRepositoryData({
+ObjectRepository.AddRepositoryData('/tgp', {
     'flow': {
-        file: '/tgp/lib/flow.js',
+        file: '/lib/flow.js',
         dependencies: []
     },
 
     'TGP': {
-        file: '/tgp/tgp.js',
+        file: '/tgp.js',
         dependencies: []
     },
 
     'TGP.Core': {
-        file: '/tgp/core.js',
+        file: '/core.js',
         dependencies: ['TGP']
     },
 
     'TGP.Utils.GoogleAnalytics': {
-        file: '/tgp/utils/google_analytics.js',
+        file: '/utils/google_analytics.js',
         dependencies: ['TGP']
     },
 
     'TGP.Utils.Logger': {
-        file: '/tgp/utils/logger.js',
+        file: '/utils/logger.js',
         dependencies: ['TGP']
     },
 
     'TGP.Utils.Observer': {
-        file: '/tgp/utils/observer.js',
+        file: '/utils/observer.js',
         dependencies: ['TGP', 'TGP.Core']
     },
 
     'TGP.Utils.ResettableCollection': {
-        file: '/tgp/utils/resettable_collection.js',
+        file: '/utils/resettable_collection.js',
         dependencies: ['TGP', 'TGP.Core']
     },
 
     'TGP.UI.Component': {
-        file: '/tgp/fsm/component.js',
+        file: '/ui/component.js',
         dependencies: ['TGP', 'flow']
     },
 
     'TGP.FSM.StateMachine': {
-        file: '/tgp/fsm/state_machine.js',
+        file: '/fsm/state_machine.js',
         dependencies: ['TGP', 'TGP.Core', 'TGP.UI.Component', 'flow']
     },
 
     'TGP.Data.CountryCodes': {
-        file: '/tgp/data/country_codes.js',
+        file: '/data/country_codes.js',
         dependencies: ['TGP']
     }
 });

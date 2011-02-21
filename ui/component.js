@@ -1,6 +1,6 @@
 ObjectRepository.Require('TGP.UI.Component', function() {
 
-    TGP.Namespace('FSM');
+    TGP.Namespace('UI');
 
     TGP.UI.Component = function() {
         this.status = TGP.UI.Component.STATUS.PRE_INIT;
