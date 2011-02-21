@@ -1,12 +1,12 @@
-ObjectRepository.Require('TGP.FSM.Component', function() {
+ObjectRepository.Require('TGP.UI.Component', function() {
 
     TGP.Namespace('FSM');
 
-    TGP.FSM.Component = function() {
-        this.status = TGP.FSM.Component.STATUS.PRE_INIT;
+    TGP.UI.Component = function() {
+        this.status = TGP.UI.Component.STATUS.PRE_INIT;
     };
 
-    TGP.FSM.Component.STATUS = {
+    TGP.UI.Component.STATUS = {
         PRE_INIT:     0,
         INITIALIZING: 1,
         UNLOADED:     2,
@@ -15,32 +15,32 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
         UNLOADING:    5
     };
 
-    TGP.FSM.Component.prototype.ResetStatus = function() {
+    TGP.UI.Component.prototype.ResetStatus = function() {
         switch (this.status) {
-            case TGP.FSM.Component.STATUS.UNLOADING:
-                this.ChangeStatus(TGP.FSM.Component.STATUS.LOADED);
+            case TGP.UI.Component.STATUS.UNLOADING:
+                this.ChangeStatus(TGP.UI.Component.STATUS.LOADED);
                 break;
-            case TGP.FSM.Component.STATUS.LOADING:
-                this.ChangeStatus(TGP.FSM.Component.STATUS.UNLOADED);
+            case TGP.UI.Component.STATUS.LOADING:
+                this.ChangeStatus(TGP.UI.Component.STATUS.UNLOADED);
                 break;
-            case TGP.FSM.Component.STATUS.INITIALIZING:
-                this.ChangeStatus(TGP.FSM.Component.STATUS.PRE_INIT);
+            case TGP.UI.Component.STATUS.INITIALIZING:
+                this.ChangeStatus(TGP.UI.Component.STATUS.PRE_INIT);
                 break;
         }
     };
 
-    TGP.FSM.Component.prototype.ChangeStatus = function(newStatus) {
+    TGP.UI.Component.prototype.ChangeStatus = function(newStatus) {
         if (this.status !== newStatus) {
             this.status = newStatus;
         }
     };
 
-    TGP.FSM.Component.prototype.InitState = function(finishCallback) {
-        if (this.status === TGP.FSM.Component.STATUS.PRE_INIT) {
+    TGP.UI.Component.prototype.InitState = function(finishCallback) {
+        if (this.status === TGP.UI.Component.STATUS.PRE_INIT) {
             var thisState = this;
             flow.exec(
                 function() {
-                    thisState.ChangeStatus(TGP.FSM.Component.STATUS.INITIALIZING);
+                    thisState.ChangeStatus(TGP.UI.Component.STATUS.INITIALIZING);
 
                     if (thisState.Init) {
                         thisState.Init(this);
@@ -52,7 +52,7 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                     if (error) {
                         thisState.ResetStatus();
                     } else {
-                        thisState.ChangeStatus(TGP.FSM.Component.STATUS.UNLOADED);
+                        thisState.ChangeStatus(TGP.UI.Component.STATUS.UNLOADED);
                     }
 
                     if (finishCallback) { finishCallback(error); }
@@ -63,8 +63,8 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
         }
     };
 
-    TGP.FSM.Component.prototype.LoadState = function(finishCallback) {
-        if (this.status === TGP.FSM.Component.STATUS.UNLOADED || this.status === TGP.FSM.Component.STATUS.PRE_INIT) {
+    TGP.UI.Component.prototype.LoadState = function(finishCallback) {
+        if (this.status === TGP.UI.Component.STATUS.UNLOADED || this.status === TGP.UI.Component.STATUS.PRE_INIT) {
             var thisState = this;
             flow.exec(
                 function() {
@@ -72,7 +72,7 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                 },
                 function(error) {
                     if (!error) {
-                        thisState.ChangeStatus(TGP.FSM.Component.STATUS.LOADING);
+                        thisState.ChangeStatus(TGP.UI.Component.STATUS.LOADING);
 
                         if (thisState.Load) {
                             thisState.Load(this);
@@ -87,7 +87,7 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                     if (error) {
                         thisState.ResetStatus();
                     } else {
-                        thisState.ChangeStatus(TGP.FSM.Component.STATUS.LOADED);
+                        thisState.ChangeStatus(TGP.UI.Component.STATUS.LOADED);
                     }
 
                     if (finishCallback) { finishCallback(error); }
@@ -98,12 +98,12 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
         }
     };
 
-    TGP.FSM.Component.prototype.UnloadState = function(finishCallback) {
-        if (this.status === TGP.FSM.Component.STATUS.LOADED) {
+    TGP.UI.Component.prototype.UnloadState = function(finishCallback) {
+        if (this.status === TGP.UI.Component.STATUS.LOADED) {
             var thisState = this;
             flow.exec(
                 function() {
-                    thisState.ChangeStatus(TGP.FSM.Component.STATUS.UNLOADING);
+                    thisState.ChangeStatus(TGP.UI.Component.STATUS.UNLOADING);
 
                     if (thisState.Unload) {
                         thisState.Unload(this);
@@ -115,7 +115,7 @@ ObjectRepository.Require('TGP.FSM.Component', function() {
                     if (error) {
                         thisState.ResetStatus();
                     } else {
-                        thisState.ChangeStatus(TGP.FSM.Component.STATUS.UNLOADED);
+                        thisState.ChangeStatus(TGP.UI.Component.STATUS.UNLOADED);
                     }
 
                     if (finishCallback) { finishCallback(error); }

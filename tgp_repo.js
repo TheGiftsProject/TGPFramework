@@ -34,14 +34,14 @@ ObjectRepository.AddRepositoryData({
         dependencies: ['TGP', 'TGP.Core']
     },
 
-    'TGP.FSM.Component': {
+    'TGP.UI.Component': {
         file: '/tgp/fsm/component.js',
         dependencies: ['TGP', 'flow']
     },
 
     'TGP.FSM.StateMachine': {
         file: '/tgp/fsm/state_machine.js',
-        dependencies: ['TGP', 'TGP.Core', 'TGP.FSM.Component', 'flow']
+        dependencies: ['TGP', 'TGP.Core', 'TGP.UI.Component', 'flow']
     },
 
     'TGP.Data.CountryCodes': {

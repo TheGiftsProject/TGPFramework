@@ -23,7 +23,10 @@ ObjectRepository.Require('TGP.Core', function() {
             return s;
         }
 
-        // Taken from the jQuery source
+        /**
+         * Taken from jQuery source
+         * docs: http://api.jquery.com/jQuery.extend
+         */
         function jQueryExtend() {
             var options, name, src, copy, copyIsArray, clone,
                 target = arguments[0] || {},

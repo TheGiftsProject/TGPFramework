@@ -34,7 +34,7 @@ ObjectRepository.Require('TGP.FSM.StateMachine', function() {
 
         flow.exec(
             function() {
-                if (thisSM.component && (thisSM.component.status !== TGP.FSM.Component.STATUS.LOADED)) {
+                if (thisSM.component && (thisSM.component.status !== TGP.UI.Component.STATUS.LOADED)) {
                     thisSM.component.LoadState(this);
                 } else {
                     this();
