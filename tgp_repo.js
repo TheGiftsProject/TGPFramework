@@ -39,8 +39,8 @@ ObjectRepository.AddRepositoryData('/tgp', {
         dependencies: ['TGP', 'flow']
     },
 
-    'TGP.FSM.StateMachine': {
-        file: '/fsm/state_machine.js',
+    'TGP.UI.StateMachine': {
+        file: '/ui/state_machine.js',
         dependencies: ['TGP', 'TGP.Core', 'TGP.UI.Component', 'flow']
     },
 

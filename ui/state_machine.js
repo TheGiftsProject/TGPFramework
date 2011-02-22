@@ -1,15 +1,15 @@
-ObjectRepository.Require('TGP.FSM.StateMachine', function() {
+ObjectRepository.Require('TGP.UI.StateMachine', function() {
 
     TGP.Namespace('FSM');
 
-    TGP.FSM.StateMachine = function(stateName, component) {
+    TGP.UI.StateMachine = function(stateName, component) {
         this.stateName = stateName;
         this.component = component;
         this.stateMachines = [];
         this.currentState = null;
     };
 
-    TGP.FSM.StateMachine.prototype.AddStateMachines = function(stateMachines) {
+    TGP.UI.StateMachine.prototype.AddStateMachines = function(stateMachines) {
         if (TGP.Core.GetType(stateMachines) != 'array') {
             stateMachines = [stateMachines];
         }
@@ -19,7 +19,7 @@ ObjectRepository.Require('TGP.FSM.StateMachine', function() {
         return this;
     };
 
-    TGP.FSM.StateMachine.prototype.FindChildStateMachine = function(name) {
+    TGP.UI.StateMachine.prototype.FindChildStateMachine = function(name) {
         for (var i = 0, length = this.stateMachines.length; i < length; ++i) {
             if (this.stateMachines[i].stateName == name) {
                 return this.stateMachines[i];
@@ -27,7 +27,7 @@ ObjectRepository.Require('TGP.FSM.StateMachine', function() {
         }
     };
 
-    TGP.FSM.StateMachine.prototype.LoadState = function(finishCallback, childStates) {
+    TGP.UI.StateMachine.prototype.LoadState = function(finishCallback, childStates) {
         var thisSM = this;
 
         if (!childStates) { childStates = []; }
@@ -68,7 +68,7 @@ ObjectRepository.Require('TGP.FSM.StateMachine', function() {
         );
     };
 
-    TGP.FSM.StateMachine.prototype.UnloadState = function(finishCallback) {
+    TGP.UI.StateMachine.prototype.UnloadState = function(finishCallback) {
         var thisSM = this;
 
         flow.exec(
