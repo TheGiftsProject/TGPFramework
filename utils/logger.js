@@ -35,6 +35,8 @@ ObjectRepository.Require('TGP.Utils.Logger', function() {
 
         if (typeof console != 'undefined' && typeof __debugging__ !== 'undefined') {
             this.StartLogging();
+        } else {
+            this.StopLogging();
         }
 
     }).call(TGP.Utils.Logger);

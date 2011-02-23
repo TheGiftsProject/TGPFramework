@@ -4,6 +4,8 @@ ObjectRepository.Require('TGP.UI.Component', function() {
 
     TGP.UI.Component = function() {
         this.status = TGP.UI.Component.STATUS.PRE_INIT;
+
+        this.OnStatusChanged = new TGP.Utils.Observer();
     };
 
     TGP.UI.Component.STATUS = {
@@ -30,9 +32,13 @@ ObjectRepository.Require('TGP.UI.Component', function() {
     };
 
     TGP.UI.Component.prototype.ChangeStatus = function(newStatus) {
+        var prevStatus = this.status;
+
         if (this.status !== newStatus) {
             this.status = newStatus;
         }
+
+        this.OnStatusChanged.Trigger(prevStatus, newStatus);
     };
 
     TGP.UI.Component.prototype.InitState = function(finishCallback) {
