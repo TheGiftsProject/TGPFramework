@@ -104,7 +104,7 @@ function GetGlobalNamespace() {
             }
         }
 
-        $LAB.setOptions({AlwaysPreserveOrder: true, AllowDuplicates: allowDuplicates}).script(files).wait(callback);
+        $LAB.setOptions({AlwaysPreserveOrder: true, AllowDuplicates: true}).script(files).wait(callback);
 
         return files;
     }
