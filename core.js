@@ -154,15 +154,50 @@ ObjectRepository.Require('TGP.Core', function() {
             return child;
         }
 
-        function MakeAccessor(param, container, changeCallback) {
+        function MakeStandaloneAccessor(name, callbacks) {
+            var param;
+
             return function(p) {
+                if (p === undefined) { return param; }
+
+                var lastValue = param;
+                param = p;
+
+                if (callbacks && (lastValue !== p)) {
+                    if (GetType(callbacks) != 'array') {
+                        callbacks = [callbacks];
+                    }
+
+                    for (var i = 0, length = callbacks.length; i < length; ++i) {
+                        if (GetType(callbacks[i]) == 'function') {
+                            callbacks[i](name, lastValue, p);
+                        }
+                    }
+                }
+                return this;
+            };
+        }
+
+        function MakeAccessor(param, container, callbacks) {
+            return function(p) {
+                // return existing value if called without parameters
                 if (p === undefined) { return container[param]; }
 
+                // set new value
                 var lastValue = container[param];
                 container[param] = p;
 
-                if (changeCallback && (lastValue !== p)) {
-                    changeCallback(param, lastValue, p);
+                // call all callbacks with param name, last value and new value
+                if (callbacks && (lastValue !== p)) {
+                    if (GetType(callbacks) != 'array') {
+                        callbacks = [callbacks];
+                    }
+
+                    for (var i = 0, length = callbacks.length; i < length; ++i) {
+                        if (GetType(callbacks[i]) == 'function') {
+                            callbacks[i](param, lastValue, p);
+                        }
+                    }
                 }
                 return this;
             };
@@ -174,13 +209,14 @@ ObjectRepository.Require('TGP.Core', function() {
             };
         }
 
-        this.GetType       = GetType;
-        this.DeepCopy      = DeepCopy;
-        this.Drilldown     = Drilldown;
-        this.Inherit       = Inherit;
-        this.InheritObject = InheritObject;
-        this.MakeAccessor  = MakeAccessor;
-        this.BindThis      = BindThis;
+        this.GetType                = GetType;
+        this.DeepCopy               = DeepCopy;
+        this.Drilldown              = Drilldown;
+        this.Inherit                = Inherit;
+        this.InheritObject          = InheritObject;
+        this.MakeAccessor           = MakeAccessor;
+        this.MakeStandaloneAccessor = MakeStandaloneAccessor;
+        this.BindThis               = BindThis;
 
     }).call(TGP.Core);
 
