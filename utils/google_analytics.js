@@ -16,10 +16,10 @@ ObjectRepository.Require('TGP.Utils.GoogleAnalytics', function() {
             RecordEvent(['_trackPageview', pageName]);
         };
 
-        this.TrackEvent = function(category, action, level) {
-            var payload = ['_trackEvent', category, action, level];
+        this.TrackEvent = function(category, action, label) {
+            var payload = ['_trackEvent', category, action, label];
 
-            if (typeof level == 'undefined') { payload.length = 3; }
+            if (typeof label == 'undefined') { payload.length = 3; }
 
             RecordEvent(payload);
         };
