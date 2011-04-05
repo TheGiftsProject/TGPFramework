@@ -23,11 +23,6 @@ function GetGlobalNamespace() {
     var globalNamespace = GetGlobalNamespace();
 
     /**
-     * Set the basepath for all javascript Loading
-     */
-    $LAB.setGlobalDefaults({BasePath: '/javascripts'});
-
-    /**
      * @returns A standard object for all repository errors
      */
     function RepositoryError(message, data) {
@@ -51,7 +46,7 @@ function GetGlobalNamespace() {
     function AddRepositoryData(basePath, data) {
         for (var i in data) {
             if (repoData[i] === undefined) {
-                data[i].file = basePath + data[i].file;
+                data[i].file = "/javascripts" + basePath + data[i].file;
                 repoData[i] = data[i];
             } else {
                 throw RepositoryError('Repository Data Conflict', data);
