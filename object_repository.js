@@ -83,11 +83,9 @@ function GetGlobalNamespace() {
      * Loads javascript files via labjs
      * @param {array} files A flat array of filenames - duplicates will be removed automatically
      * @param {function} callback This function will be called after execution of all the js files
-     * @param {boolean} reloadFiles If true, files will be reloaded and re-executed
      * @returns {array} Filenames that were sent to labjs
      */
-    function LoadJavascript(files, callback, reloadFiles) {
-        var allowDuplicates = (reloadFiles ? reloadFiles : false);
+    function LoadJavascript(files, callback) {
 
         // Remove duplicates
         for (var i = 0; i < files.length; ++i) {
@@ -132,9 +130,8 @@ function GetGlobalNamespace() {
      * @param {array} names An array of object names to load
      * @param {function} callback This function will be called when the objects and their dependencies are ready
      * @param {boolean} dependenciesOnly Do not load the actual object - should be used in the file where each object is created
-     * @param {boolean} reloadFiles If true, files will be reloaded and re-executed
      */
-    function Require(names, callback, dependenciesOnly, reloadFiles) {
+    function Require(names, callback, dependenciesOnly) {
         if (!repoData) {
             throw RepositoryError('Repository Not Ready', name);
         }
@@ -149,7 +146,7 @@ function GetGlobalNamespace() {
             dependencyList = dependencyList.concat(FetchDependencies(names[i], dependenciesOnly));
         }
 
-        var loadedFiles = LoadJavascript(dependencyList, callback, reloadFiles);
+        var loadedFiles = LoadJavascript(dependencyList, callback);
 
         if (typeof __debugging__ !== 'undefined' && console && console.groupCollapsed && console.groupEnd) {
             console.groupCollapsed(loadedFiles.length + " FILES LOADED - " + names.join());
@@ -158,41 +155,8 @@ function GetGlobalNamespace() {
         }
     }
 
-    /**
-     * Validates the integrity of the repo object collection by attempting to delete and load all object specified (including their dependencies)
-     * ObjectRepository should throw an exception if there's an object name issue. If there's a filename error, you should see a 404 error in the network tab in either firebug or chrome.
-     */
-    function TestObjectData() {
-        function DeleteObjectByName(name) {
-            var objectTrail = name.split('.');
-            var lastObject = globalNamespace;
-
-            for (var i = 0, length = objectTrail.length-1; i < length; ++i) {
-                lastObject = lastObject[objectTrail[i]];
-
-                if (lastObject === undefined) {
-                    return false;
-                }
-            }
-
-            delete lastObject[objectTrail[i]];
-        }
-
-        for (var key in repoData) {
-            if (repoData.hasOwnProperty(key)) {
-                DeleteObjectByName(key);
-                for (var i = 0, length = repoData[key].dependencies.length; i < length; ++i) {
-                    DeleteObjectByName(repoData[key].dependencies[i]);
-                }
-
-                Require(key, undefined, undefined, true);
-            }
-        }
-    }
-
     this.Require = Require;
     this.AddRepositoryData = AddRepositoryData;
     this.GlobalNamespace = globalNamespace;
-    this.TestObjectData = TestObjectData;
 
 }).call(ObjectRepository);
