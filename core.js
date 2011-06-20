@@ -205,7 +205,7 @@ ObjectRepository.Require('TGP.Core', function() {
 
         function BindThis(boundThis, func) {
             return function() {
-                func.apply(boundThis, arguments);
+                return func.apply(boundThis, arguments);
             };
         }
 
