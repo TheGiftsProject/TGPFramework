@@ -19,6 +19,16 @@ ObjectRepository.AddRepositoryData('/tgp', {
         dependencies: ['TGP']
     },
 
+    'TGP.GoogleAnalyticsClass': {
+        file: '/tgp/common/google_analytics_class.js',
+        dependencies: ['TGP']
+    },
+
+    'TGP.AnalyticsClass': {
+        file: '/tgp/common/analytics_class.js',
+        dependencies: ['TGP', 'TGP.GoogleAnalyticsClass']
+    },
+
     'TGP.Utils.Logger': {
         file: '/utils/logger.js',
         dependencies: ['TGP']
