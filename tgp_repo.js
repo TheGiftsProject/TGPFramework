@@ -14,21 +14,6 @@ ObjectRepository.AddRepositoryData('/tgp', {
         dependencies: ['TGP']
     },
 
-    'TGP.Utils.GoogleAnalytics': {
-        file: '/utils/google_analytics.js',
-        dependencies: ['TGP']
-    },
-
-    'TGP.Utils.Kissmetrics': {
-        file: '/utils/kissmetrics.js',
-        dependencies: ['TGP']
-    },
-
-    'TGP.Utils.Mixpanel': {
-        file: '/utils/mixpanel.js',
-        dependencies: ['TGP']
-    },
-
     'TGP.Utils.Logger': {
         file: '/utils/logger.js',
         dependencies: ['TGP']
