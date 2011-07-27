@@ -45,18 +45,18 @@ $.Class('TGP.Utils.KissmetricsClass', {
     },
 
     /**
-     * Identify a user with a an email and alias his name
-     * @param email - identifier
+     * Identify a user by its uid and alias his name
+     * @param uid - identifier
      * @param name  - name to alias to
      */
-    identifyByNameAndEmail:function(email, name){
-        this.identify( email, {'name':name} );
-        this.setAlias( name, email );
+    identifyByNameAndUid:function(uid, name){
+        this.identify( uid, {'name':name} );
+        this.setAlias( name, uid );
     },
 
     /**
      * Identify a user with a unique id
-     * @param identifier - could be either username or email (currently email)
+     * @param identifier - could be either username or email (currently uid)
      * @param properties - JSON with custom data
      */
     identify:function(identifier, properties){

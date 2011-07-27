@@ -60,14 +60,14 @@ $.Class('TGP.Utils.AnalyticsClass', {
     },
 
     /**
-     * Identify a user with a an email and alias his name
-     * @param email - identifier
+     * Identify a user with a an uid and alias his name
+     * @param uid - identifier
      * @param name  - name to alias to
      */
-    identifyByNameAndEmail:function(email, name){
-        if( email && name && jQuery.type(email) === "string" && jQuery.type(name) === "string" ){
+    identifyByNameAndUid:function(uid, name){
+        if( uid && name && jQuery.type(uid) === "string" && jQuery.type(name) === "string" ){
             var formattedNamed = $.String.niceName(name);
-            this.pushToAll('identifyByNameAndEmail', email, formattedNamed);
+            this.pushToAll('identifyByNameAndUid', uid, formattedNamed);
         }
     },
 
