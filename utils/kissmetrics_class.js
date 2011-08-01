@@ -41,7 +41,9 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * @param data - JSON with custom data
      */
     setProperty:function(property, value){
-        this.push(['set', {property:value} ]);
+        var properties = {};
+        properties[property] = value;
+        this.setProperties(properties);
     },
 
     /**
