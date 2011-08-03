@@ -65,6 +65,17 @@ $.Class('TGP.Utils.GoogleAnalyticsClass', {
             opt_value = this.extractFromProperties( properties, 'label_value' );
             this.push(['_trackEvent',category, action, opt_label, opt_value]);
         }
+    },
+
+    /**
+     * Extract From Properties
+     * @param properties
+     * @param key
+     */
+    extractFromProperties:function extractFromProperties(properties, key){
+        if( properties[key] && jQuery.type(properties[key]) === "string" ) {
+            return $.String.niceName( properties[key] )
+        }
     }
 },{
 
