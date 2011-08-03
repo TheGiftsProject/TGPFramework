@@ -51,12 +51,18 @@ $.Class('TGP.Utils.GoogleAnalyticsClass', {
      *
      * @link http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
      * @param category - The name you supply for the group of objects you want to track.
-     * @param action - A string that is uniquely paired with each category, and commonly used to define the type of user interaction for the web object.
-     * @param opt_label - An optional string to provide additional dimensions to the event data.
-     * @param opt_value - An optional integer that you can use to provide numerical data about the user event.
+     * @param properties - Object with the following attributes:
+     *      action - A string that is uniquely paired with each category,
+     *               and commonly used to define the type of user interaction for the web object.
+     *      opt_label - An optional string to provide additional dimensions to the event data.
+     *      opt_value - An optional integer that you can use to provide numerical data about the user event.
      */
-    trackEvent:function trackEvent(category, action, opt_label, opt_value){
+    trackEvent:function trackEvent(category, properties){
+        var opt_label, opt_value, action;
+        action = this.extractFromProperties( properties, 'action' );
         if( category && action ){
+            opt_label = this.extractFromProperties( properties, 'label' );
+            opt_value = this.extractFromProperties( properties, 'label_value' );
             this.push(['_trackEvent',category, action, opt_label, opt_value]);
         }
     }

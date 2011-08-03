@@ -1,6 +1,6 @@
 $.Class('TGP.Utils.KissmetricsClass', {
 
-    init:function(){
+    init:function init(){
         this.isLoaded = (typeof _kmq !== "undefined");
     },
 
@@ -8,7 +8,7 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * Push a call asynchronously to Kissmetrics API
      * @param callData - array to push
      */
-    push:function(callData){
+    push:function push(callData){
         if( $.isArray(callData) && this.isLoaded ){
             _kmq.push(callData);
         }
@@ -17,14 +17,10 @@ $.Class('TGP.Utils.KissmetricsClass', {
     /**
      * Track Event
      * @param eventName - event name string
-     * @param action
-     * @param label
      * @param properties - JSON with custom data
      */
-    trackEvent:function(eventName, action, label, properties){
+    trackEvent:function trackEvent(eventName, properties){
         properties = properties || {};
-        if( jQuery.type(label) === "string" ) { properties["label"]  = $.String.niceName( label ) }
-        if( jQuery.type(action) === "string" ){ properties["action"] = $.String.niceName( action ) }
         this.push(['record', eventName, properties]);
     },
 
@@ -32,7 +28,7 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * Set properties
      * @param properties - JSON with custom data
      */
-    setProperties:function(properties){
+    setProperties:function setProperties(properties){
         this.push(['set', properties]);
     },
 
@@ -40,7 +36,7 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * Set a single property
      * @param data - JSON with custom data
      */
-    setProperty:function(property, value){
+    setProperty:function setProperty(property, value){
         var properties = {};
         properties[property] = value;
         this.setProperties(properties);
@@ -51,7 +47,7 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * @param uid - identifier
      * @param name  - name to alias to
      */
-    identifyByNameAndUid:function(uid, name){
+    identifyByUidAndName:function identifyByUidAndName(uid, name){
         this.identify( uid, {'name':name} );
         this.setAlias( name, uid );
     },
@@ -61,7 +57,7 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * @param identifier - could be either username or email (currently uid)
      * @param properties - JSON with custom data
      */
-    identify:function(identifier, properties){
+    identify:function identify(identifier, properties){
         properties = properties || {};
         this.push(['identify', identifier, properties]);
     },
@@ -74,7 +70,7 @@ $.Class('TGP.Utils.KissmetricsClass', {
      * and bob@bob.com as the same person.
      * @param name
      */
-    setAlias:function(name, identifier){
+    setAlias:function setAlias(name, identifier){
         this.push(['alias', name, identifier]);
     }
 },{

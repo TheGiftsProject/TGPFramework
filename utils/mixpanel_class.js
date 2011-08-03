@@ -1,6 +1,6 @@
 $.Class('TGP.Utils.MixpanelClass', {
 
-    init:function(){
+    init:function init(){
         this.isLoaded = (typeof mpq !== "undefined");
     },
 
@@ -8,7 +8,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      * Push a call asynchronously to Mixpanel API
      * @param callData - array to push
      */
-    push:function(callData){
+    push:function push(callData){
         if( $.isArray(callData) && this.isLoaded ){
             mpq.push(callData);
         }
@@ -17,22 +17,18 @@ $.Class('TGP.Utils.MixpanelClass', {
     /**
      * Track Event
      * @param eventName - event name string
-     * @param action
-     * @param label
      * @param properties - JSON with custom data
      */
-    trackEvent:function(eventName, action, label, properties){
+    trackEvent:function trackEvent(eventName, properties){
         properties = properties || {};
-        if( jQuery.type(label) === "string" ) { properties["label"]  = $.String.niceName( label ) }
-        if( jQuery.type(action) === "string" ){ properties["action"] = $.String.niceName( action ) }
-        this.push(["track",   eventName, properties]);
+        this.push(['record', eventName, properties]);
     },
 
     /**
      * Set properties
      * @param properties - JSON with custom data
      */
-    setProperties:function(properties){
+    setProperties:function setProperties(properties){
         this.push(["register", properties]);
     },
 
@@ -40,7 +36,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      * Set a single property
      * @param data - JSON with custom data
      */
-    setProperty:function(property, value){
+    setProperty:function setProperty(property, value){
         var properties = {};
         properties[property] = value;
         this.setProperties(properties);
@@ -52,7 +48,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      * @param uid - identifier
      * @param name  - name to alias to
      */
-    identifyByNameAndUid:function(uid, name){
+    identifyByUidAndName:function identifyByUidAndName(uid, name){
         this.identify( uid, {'name':name} );
         this.setNameTag( name );
     },
@@ -61,7 +57,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      * Identify a user with a unique id
      * @param identifier - could be either username or email (currently uid)
      */
-    identify:function(identifier){
+    identify:function identify(identifier){
         this.push(["identify",  identifier]);
     },
 
@@ -71,7 +67,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      * name. Name tags do not have to be unique.
      * @param name
      */
-    setNameTag:function(name){
+    setNameTag:function setNameTag(name){
         this.push(["name_tag", name]);
     }
 

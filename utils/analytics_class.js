@@ -27,13 +27,11 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * Track Event
      *
      * @param eventName - event name string
-     * @param action
-     * @param label
      * @param properties - JSON with custom data
      */
-    trackEvent:function(eventName, action, label, properties){
+    trackEvent:function trackEvent(eventName, properties){
         if( eventName && jQuery.type(eventName) === "string" ){
-            this.pushToAll('trackEvent', eventName, action, label, properties);
+            this.pushToAll('trackEvent', eventName, properties);
         }
     },
 
@@ -64,10 +62,10 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * @param uid - identifier
      * @param name  - name to alias to
      */
-    identifyByNameAndUid:function(uid, name){
+    identifyByUidAndName:function(uid, name){
         if( uid && name && jQuery.type(uid) === "string" && jQuery.type(name) === "string" ){
             var formattedNamed = $.String.niceName(name);
-            this.pushToAll('identifyByNameAndUid', uid, formattedNamed);
+            this.pushToAll('identifyByUidAndName', uid, formattedNamed);
         }
     },
 

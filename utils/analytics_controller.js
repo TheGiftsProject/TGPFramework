@@ -9,13 +9,13 @@ $.Controller('TGP.Utils.AnalyticsController', {
 
     logFacebookLogin: function(){
         $.on_fb_login( function(){
-            TGP.Utils.AnalyticsClass.trackEvent('Facebook Login', 'Success');
-            TGP.Utils.AnalyticsClass.setProperty('Facebook Login', 'Yes');
+            TGP.Utils.AnalyticsClass.trackEvent('Facebook Login', {"action":'Success'});
+            TGP.Utils.AnalyticsClass.setProperty('Facebook', 'Yes');
             $.fb_query_self(function(response){
               if(!response.error_code) {
                 var fbUser = response[0];
                 if( fbUser ){
-                    TGP.Utils.AnalyticsClass.identifyByNameAndUid( fbUser.uid, fbUser.name );
+                    TGP.Utils.AnalyticsClass.identifyByUidAndName( fbUser.uid, fbUser.name );
                 }
               }
             });
@@ -24,8 +24,8 @@ $.Controller('TGP.Utils.AnalyticsController', {
 
     logFacebookLogout: function(){
         $.on_fb_logout( function(){
-            TGP.Utils.AnalyticsClass.trackEvent('Facebook Logout', 'Success');
-            TGP.Utils.AnalyticsClass.setProperty('Facebook Login', 'No');
+            TGP.Utils.AnalyticsClass.trackEvent('Facebook Logout', {"action":'Success'});
+            TGP.Utils.AnalyticsClass.setProperty('Facebook', 'No');
         });
     },
 
@@ -37,6 +37,7 @@ $.Controller('TGP.Utils.AnalyticsController', {
 
     'Ebay.Campaign.PaymentDetails.ItemDetailsChanged subscribe': function(ev, details) {
         var payment_data = {
+            "action" : "Payment",
             "Item Price" : details.Price(),
             "Shipping Price" : details.ShippingPrice(),
             "Item ID" : details.ItemId()
@@ -45,11 +46,11 @@ $.Controller('TGP.Utils.AnalyticsController', {
     },
 
     "Ebay.Campaign.STC.TotalPriceChanged subscribe":function(ev, new_price) {
-        TGP.Utils.AnalyticsClass.trackEvent("Total Price", new_price);
+        TGP.Utils.AnalyticsClass.trackEvent("Total Price", {"action":"change", "Total Price":new_price});
     },
 
     "Autocomplete.GotContacts subscribe":function(ev, data) {
-        TGP.Utils.AnalyticsClass.trackEvent("Autocomplete Got Contacts", data);
+        TGP.Utils.AnalyticsClass.trackEvent("Autocomplete Got Contacts", {"action":"Got Contacts", "provider":data.provider});
     },
 
     "Ebay.Campaign.Row.IdentifierChanged subscribe":function(ev, data) {
