@@ -4,7 +4,7 @@ $.Controller('TGP.Utils.AnalyticsController', {
     init: function() {
         this.logFacebookLogin();
         this.logFacebookLogout();
-        this.logEbayLogin();
+//        this.logEbayLogin();
     },
 
     logFacebookLogin: function(){
@@ -29,11 +29,16 @@ $.Controller('TGP.Utils.AnalyticsController', {
         });
     },
 
+     /*
+        NOT TESTED
     logEbayLogin: function(){
-        ebayLogin.EbayReady(function(ebayUserId) {
+
+        ebayLogin.OnEbayLogin(function() {
+            var ebayUserId = EbayLogin.userId;
           TGP.Utils.AnalyticsClass.identify(ebayUserId);
         });
     },
+    */
 
     'Ebay.Campaign.PaymentDetails.ItemDetailsChanged subscribe': function(ev, details) {
         var payment_data = {
