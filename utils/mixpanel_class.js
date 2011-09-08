@@ -9,7 +9,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      * @param callData - array to push
      */
     push:function push(callData){
-        if( $.isArray(callData) && this.isLoaded ){
+        if( ($.isArray(callData) || $.isFunction(callData)) && this.isLoaded ){
             mpq.push(callData);
         }
     },
@@ -21,7 +21,7 @@ $.Class('TGP.Utils.MixpanelClass', {
      */
     trackEvent:function trackEvent(eventName, properties){
         properties = properties || {};
-        this.push(['record', eventName, properties]);
+        this.push(["track", eventName, properties]);
     },
 
     /**
@@ -34,7 +34,8 @@ $.Class('TGP.Utils.MixpanelClass', {
 
     /**
      * Set a single property
-     * @param data - JSON with custom data
+     * @param property
+     * @param value
      */
     setProperty:function setProperty(property, value){
         var properties = {};
@@ -59,6 +60,17 @@ $.Class('TGP.Utils.MixpanelClass', {
      */
     identify:function identify(identifier){
         this.push(["identify",  identifier]);
+    },
+
+    /**
+     * Clear the user's identity
+     * @note: still not tested
+     */
+    clearIdentity:function clearIdentity(){
+        this.push( function() {
+            delete mpq.metrics.super_properties.all.distinct_id;
+            mpq.register({}); }
+        );
     },
 
     /**

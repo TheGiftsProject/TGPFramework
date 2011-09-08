@@ -1,6 +1,6 @@
 $.Class('TGP.Utils.GoogleAnalyticsClass', {
 
-    init:function(){
+    init:function init(){
         this.isLoaded = (typeof _gaq !== "undefined");
     },
 
@@ -8,21 +8,22 @@ $.Class('TGP.Utils.GoogleAnalyticsClass', {
      * Push a call asynchronously to Google Analytics API
      * @param callData - array to push
      */
-    push:function(callData){
+    push:function push(callData){
         if( $.isArray(callData) && this.isLoaded ){
             _gaq.push(callData);
         }
     },
 
-    trackPageview:function(pageName){
+    trackPageview:function trackPageview(pageName){
         this.push(['_trackPageview',pageName]);
     },
 
      /**
      * Set a single property - wraps setCustomVar
-     * @param data - JSON with custom data
+     * @param property
+     * @param value
      */
-    setProperty:function(property, value){
+    setProperty:function setProperty(property, value){
         if( property ){
             var index = 1; // The slot used for the custom variable. Possible values are 1-5, inclusive.
             var scope = 2; // Possible values are 1 for visitor-level, 2 for session-level, and 3 for page-level.
@@ -73,7 +74,7 @@ $.Class('TGP.Utils.GoogleAnalyticsClass', {
      * @param key
      */
     extractFromProperties:function extractFromProperties(properties, key){
-        if( properties[key] && jQuery.type(properties[key]) === "string" ) {
+        if( properties && properties[key] && jQuery.type(properties[key]) === "string" ) {
             return $.String.niceName( properties[key] )
         }
     }

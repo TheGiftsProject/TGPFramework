@@ -34,7 +34,8 @@ $.Class('TGP.Utils.KissmetricsClass', {
 
     /**
      * Set a single property
-     * @param data - JSON with custom data
+     * @param property
+     * @param value
      */
     setProperty:function setProperty(property, value){
         var properties = {};
@@ -62,6 +63,13 @@ $.Class('TGP.Utils.KissmetricsClass', {
         this.push(['identify', identifier, properties]);
     },
 
+    /**
+     * Clear the user's identity
+     * @see http://support.kissmetrics.com/advanced/identity-management
+     */
+    clearIdentity:function clearIdentity(){
+        this.push(['clearIdentity']);
+    },
 
     /**
      * alias simply takes two arguments which are the two identities that you need

@@ -1,6 +1,6 @@
 $.Class('TGP.Utils.AnalyticsClass', {
 
-    setup:function(){
+    setup:function setup(){
         this.APIs = [
             TGP.Utils.MixpanelClass,
             TGP.Utils.KissmetricsClass,
@@ -12,7 +12,7 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * Push the method call to all API's
      * @param method
      */
-    pushToAll:function(method){
+    pushToAll:function pushToAll(method){
         // remove the 'method' parameter from the arguments
         var args = $.makeArray(arguments).slice(1);
 
@@ -40,7 +40,7 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * Note - doesn't include Google Analytics since variable number is limited to 5
      * @param properties - JSON with custom data
      */
-    setProperties:function(properties){
+    setProperties:function setProperties(properties){
         if( !$.isEmptyObject(properties) ){
             this.pushToAll('setProperties', properties);
         }
@@ -51,7 +51,7 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * @param property - property name
      * @param value - property value
      */
-    setProperty:function(property, value){
+    setProperty:function setProperty(property, value){
         if( property && jQuery.type(property) === "string" ){
             this.pushToAll('setProperty', property, value);
         }
@@ -62,7 +62,7 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * @param uid - identifier
      * @param name  - name to alias to
      */
-    identifyByUidAndName:function(uid, name){
+    identifyByUidAndName:function identifyByUidAndName(uid, name){
         if( uid && name && jQuery.type(uid) === "string" && jQuery.type(name) === "string" ){
             var formattedNamed = $.String.niceName(name);
             this.pushToAll('identifyByUidAndName', uid, formattedNamed);
@@ -74,11 +74,18 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * @param identifier - could be either username or email (currently email)
      * @param properties - JSON with custom data (only used by Kissmetrics)
      */
-    identify:function(identifier, properties){
+    identify:function identify(identifier, properties){
         if( identifier && jQuery.type(identifier) === "string"){
             properties = properties || {};
             this.pushToAll('identify', identifier, properties);
         }
+    },
+
+    /**
+     * Clear the user's identity
+     */
+    clearIdentity:function clearIdentity(){
+        this.pushToAll('clearIdentity');
     },
 
     /**
@@ -88,7 +95,7 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * Note: currently only used by Mixpanel
      * @param name
      */
-    setNameTag:function(name){
+    setNameTag:function setNameTag(name){
         if(name && jQuery.type(name) === "string"){
             this.pushToAll('name_tag', name);
         }
@@ -102,7 +109,7 @@ $.Class('TGP.Utils.AnalyticsClass', {
      * Note: currently only used by Kissmetrics
      * @param name
      */
-    setAlias:function(name, identifier){
+    setAlias:function setAlias(name, identifier){
         if( identifier && name && jQuery.type(identifier) === "string" && jQuery.type(name) === "string" ){
             this.pushToAll('alias', name, identifier);
         }
