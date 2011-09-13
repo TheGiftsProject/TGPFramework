@@ -60,6 +60,9 @@ $.Controller('TGP.Utils.AnalyticsController', {
 
     "Ebay.Campaign.Row.IdentifierChanged subscribe":function(ev, data) {
         var properties = {};
+        if(!data) {
+            return;
+        }
         if( data['email'] ){
             properties['Invitee Email'] = data['email'];
         }
