@@ -2,8 +2,8 @@ $.Class('TGP.Utils.AnalyticsClass', {
 
     setup:function(){
         this.APIs = [
-            TGP.Utils.MixpanelClass,
-            TGP.Utils.KissmetricsClass,
+//            TGP.Utils.MixpanelClass,
+//            TGP.Utils.KissmetricsClass,
             TGP.Utils.GoogleAnalyticsClass
         ];
     },
